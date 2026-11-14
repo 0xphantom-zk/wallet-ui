@@ -1,0 +1,58 @@
+/**
+ * These are the variables that style the BaseButton component.
+ *
+ * It targets the [data-wu='base-button'] and related [data-wu='base-button-*'] selectors.
+ *
+ * The colors are coming from the wallet-ui-variables.css file. Other styles are Tailwind CSS.
+ */
+
+/* Base Button */
+[data-wu='base-button'] {
+    /* Background  */
+    background: var(--wu-color-background);
+    /* Text color */
+    color: var(--wu-color-foreground);
+    /* Border  */
+    @apply border;
+    border-color: var(--wu-color-border);
+    /* Shape */
+    @apply rounded-md shadow-sm cursor-pointer;
+    /* Composition */
+    @apply flex items-center justify-center gap-2 whitespace-nowrap;
+    /* Disabled */
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    /* Padding */
+    @apply px-4 py-3;
+    /* Text size */
+    @apply text-base;
+    /* Text weight  */
+    @apply font-semibold;
+
+    &:hover {
+        /* Background  */
+        background: var(--wu-color-background-hover);
+        /* Text color */
+        color: var(--wu-color-foreground-hover);
+    }
+
+    &:focus {
+        /* Outline */
+        @apply outline-none;
+        /* Box shadow */
+        box-shadow: 0 0 0 2px var(--wu-color-ring);
+    }
+}
+
+[data-wu='base-button-left-section'] {
+    /* Composition */
+    @apply mr-2;
+    /* Text size */
+    @apply text-sm;
+}
+
+[data-wu='base-button-right-section'] {
+    /* Composition */
+    @apply ml-2;
+    /* Text size */
+    @apply text-sm;
+}

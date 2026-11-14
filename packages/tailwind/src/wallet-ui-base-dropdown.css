@@ -1,0 +1,51 @@
+/**
+ * These are the variables that style the BaseDropdown component.
+ *
+ * It targets the [data-wu='base-dropdown'] and related [data-wu='base-dropdown-*'] selectors.
+ *
+ * The colors are coming from the wallet-ui-variables.css file. Other styles are Tailwind CSS.
+ */
+
+/* Base Dropdown List */
+[data-wu='base-dropdown-list'] {
+    /* Background  */
+    background: var(--wu-color-background);
+    /* Border  */
+    @apply border outline-hidden;
+    border-color: var(--wu-color-border);
+    /*!* Shape *!*/
+    @apply overflow-clip rounded-md p-1;
+}
+
+/* Base Dropdown Item */
+[data-wu='base-dropdown-item'] {
+    /* Background  */
+    background: var(--wu-color-background);
+    /* Text color */
+    color: var(--wu-color-foreground);
+    /* Content */
+    @apply flex items-center gap-2;
+    /* Shape */
+    @apply cursor-pointer w-full rounded-md;
+    /* Padding */
+    @apply px-4 py-3;
+    /* Text size */
+    @apply text-base;
+
+    &:hover {
+        /* Background  */
+        background: var(--wu-color-background-hover);
+        /* Text color */
+        color: var(--wu-color-foreground-hover);
+    }
+}
+
+/* Left Section */
+[data-wu='base-dropdown-item-left-section'] {
+    @apply mr-2;
+}
+
+/* Right Section */
+[data-wu='base-dropdown-item-right-section'] {
+    @apply ml-2;
+}

@@ -1,0 +1,73 @@
+name: Pull requests
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  # Among other things, opts out of Turborepo telemetry
+  # See https://consoledonottrack.com/
+  DO_NOT_TRACK: '1'
+  # Some tasks slow down considerably on GitHub Actions runners when concurrency is high
+  TURBO_CONCURRENCY: 1
+  # Enables Turborepo Remote Caching.
+  TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
+jobs:
+  # Groups the build-and-test matrix into a single check, so branch rulesets and
+  # auto-merge can gate on one stable status name instead of every matrix leg.
+  #
+  # `always()` is required: without it a failing build-and-test would skip this
+  # job instead of failing it, and a skipped required check does not reliably
+  # block a merge. The job therefore runs unconditionally and asserts the result.
+  all-web3-checks:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - env:
+          BUILD_AND_TEST_RESULT: ${{ needs.build-and-test.result }}
+        run: test "$BUILD_AND_TEST_RESULT" = 'success'
+
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node:
+          - 'lts/krypton'
+
+    name: Build & Test on Node ${{ matrix.node }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Install Dependencies
+        uses: ./.github/actions/install-dependencies
+        with:
+          version: ${{ matrix.node }}
+
+      - name: Setup Solana Test Validator
+        id: start-test-validator
+        uses: ./.github/actions/setup-validator
+
+      - name: Build & Test
+        run: pnpm build # Don't add --concurrency here; it's already baked in
+
+      - name: Test Expo Examples
+        run: |
+          pnpm --dir examples/expo-kit test
+          pnpm --dir examples/expo-kit test:live-with-test-validator
+          pnpm --dir examples/expo-web3js test
+          pnpm --dir examples/expo-web3js test:live-with-test-validator
+
+      - name: Smoke Test Expo Native Entries
+        run: pnpm test:examples:native-entry
+
+      - name: Stop Test Validator
+        if: always() && steps.start-test-validator.outcome == 'success'
+        run: kill ${{ steps.start-test-validator.outputs.pid }}

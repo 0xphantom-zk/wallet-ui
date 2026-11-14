@@ -1,0 +1,192 @@
+# @wallet-ui/react-native-kit
+
+## 4.4.1
+
+### Patch Changes
+
+- [#564](https://github.com/wallet-ui/wallet-ui/pull/564) [`9cb67cb`](https://github.com/wallet-ui/wallet-ui/commit/9cb67cb3e51c4bff6fa3764b5e0b19a047cd7d22) Thanks [@beeman](https://github.com/beeman)! - Require `@solana-mobile/mobile-wallet-adapter-protocol`, `-protocol-kit`, and `-protocol-web3js` 3.0.1 or later. The 3.0.0 React Native builds of the kit and web3js wrappers import `startRemoteScenario` from the protocol package, whose React Native build does not export it, so strict ESM loaders such as vitest fail to load `@wallet-ui/react-native-kit` and `@wallet-ui/react-native-web3js` with "does not provide an export named 'startRemoteScenario'". 3.0.1 fixes that, and the `^3.0.1` range also keeps pnpm 12's release-age cooldown from resolving back to 3.0.0.
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.4.1
+
+## 4.4.0
+
+### Minor Changes
+
+- [#558](https://github.com/wallet-ui/wallet-ui/pull/558) [`38123cb`](https://github.com/wallet-ui/wallet-ui/commit/38123cb2cfb47b49d979b6cff90c0e0dc6dc012b) Thanks [@beeman](https://github.com/beeman)! - Require `@solana/kit` 8 and bump the `@solana-mobile` packages to 3.0.0. Consumers on Kit 7 must upgrade to `@solana/kit@^8.4.0`.
+
+### Patch Changes
+
+- Updated dependencies [[`38123cb`](https://github.com/wallet-ui/wallet-ui/commit/38123cb2cfb47b49d979b6cff90c0e0dc6dc012b)]:
+    - @wallet-ui/core@4.4.0
+
+## 4.3.0
+
+### Minor Changes
+
+- [#545](https://github.com/wallet-ui/wallet-ui/pull/545) [`3a0a1f7`](https://github.com/wallet-ui/wallet-ui/commit/3a0a1f7335e2c170aa0167e6b487a547db8c5f26) Thanks [@beeman](https://github.com/beeman)! - Preserve custom client capabilities through `MobileWalletProvider` and `useMobileWallet`.
+
+- [#547](https://github.com/wallet-ui/wallet-ui/pull/547) [`8beff2e`](https://github.com/wallet-ui/wallet-ui/commit/8beff2e391a9f11142e635ee442a90c63814fffe) Thanks [@beeman](https://github.com/beeman)! - Add a Kit 7 `mobileWallet` plugin with a lazy MWA payer, headless session lifecycle, and wallet-routed transaction plan execution.
+
+### Patch Changes
+
+- [#555](https://github.com/wallet-ui/wallet-ui/pull/555) [`abc6d2b`](https://github.com/wallet-ui/wallet-ui/commit/abc6d2b52a4fbd9beb856cdbb92978f73003051c) Thanks [@beeman](https://github.com/beeman)! - Update the React Native packages to `@solana-mobile/mobile-wallet-adapter-protocol@^2.3.0`, `@solana-mobile/mobile-wallet-adapter-protocol-kit@^0.4.0`, and `@solana-mobile/mobile-wallet-adapter-protocol-web3js@^2.3.0`.
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.3.0
+
+## 4.2.1
+
+### Patch Changes
+
+- [#542](https://github.com/wallet-ui/wallet-ui/pull/542) [`9ffbd0e`](https://github.com/wallet-ui/wallet-ui/commit/9ffbd0e6701d00047a9dc41f3fabf888c06efec8) Thanks [@beeman](https://github.com/beeman)! - support @solana/kit 6 and 7
+
+- Updated dependencies [[`9ffbd0e`](https://github.com/wallet-ui/wallet-ui/commit/9ffbd0e6701d00047a9dc41f3fabf888c06efec8)]:
+    - @wallet-ui/core@4.2.1
+
+## 4.2.0
+
+### Minor Changes
+
+- [#533](https://github.com/wallet-ui/wallet-ui/pull/533) [`e79cb14`](https://github.com/wallet-ui/wallet-ui/commit/e79cb140b6320d0bc1873c444d68c0accd9f0dec) Thanks [@beeman](https://github.com/beeman)! - Add framework-neutral QR code matrix and SVG generation helpers backed by `qr`, and raise the Node.js engine floor to 20.19 for published Wallet UI packages.
+
+### Patch Changes
+
+- Updated dependencies [[`e79cb14`](https://github.com/wallet-ui/wallet-ui/commit/e79cb140b6320d0bc1873c444d68c0accd9f0dec)]:
+    - @wallet-ui/core@4.2.0
+
+## 4.1.1
+
+### Patch Changes
+
+- [#504](https://github.com/wallet-ui/wallet-ui/pull/504) [`70d731f`](https://github.com/wallet-ui/wallet-ui/commit/70d731f6d0bb61958e90b69e67819f3e1c03484b) Thanks [@beeman](https://github.com/beeman)! - Align `@solana/react` with the Solana Kit 6.1 dependency set.
+
+- [#519](https://github.com/wallet-ui/wallet-ui/pull/519) [`b1cb8fb`](https://github.com/wallet-ui/wallet-ui/commit/b1cb8fbae1450e8f29917cbe4a55c4505702f198) Thanks [@beeman](https://github.com/beeman)! - Stabilize provider initialization without render-time ref writes.
+
+- [#524](https://github.com/wallet-ui/wallet-ui/pull/524) [`536f2ce`](https://github.com/wallet-ui/wallet-ui/commit/536f2cedd6d32041cb5ded1d5e962d8afd6c670b) Thanks [@beeman](https://github.com/beeman)! - Update Solana program dependencies to peer on Solana Kit 6.
+
+- [#518](https://github.com/wallet-ui/wallet-ui/pull/518) [`b203e7d`](https://github.com/wallet-ui/wallet-ui/commit/b203e7d9d4e0bf75bccbcc7bcfcc1b4bc2792b55) Thanks [@beeman](https://github.com/beeman)! - Validate Mobile Wallet Adapter identity URI schemes before launching React Native wallet authorization.
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.1.1
+
+## 4.1.0
+
+### Patch Changes
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.1.0
+
+## 4.0.5
+
+### Patch Changes
+
+- [#491](https://github.com/wallet-ui/wallet-ui/pull/491) [`50306a4`](https://github.com/wallet-ui/wallet-ui/commit/50306a463b69635f66b72850f00186d788420e6d) Thanks [@beeman](https://github.com/beeman)! - Revert the AsyncStorage dependency bump from `@react-native-async-storage/async-storage@^3.0.2` to `^2.2.0`.
+
+    AsyncStorage `3.x` currently requires extra Android `local_repo` Maven wiring, which adds avoidable integration friction for Wallet UI consumers, especially Expo CNG and generated native projects. This rollback restores the previous internal dependency line without changing the public API surface.
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.0.5
+
+## 4.0.4
+
+### Patch Changes
+
+- [#480](https://github.com/wallet-ui/wallet-ui/pull/480) [`3b27018`](https://github.com/wallet-ui/wallet-ui/commit/3b270183a29088cc27a87dbb699d9cc0ea51669c) Thanks [@beeman](https://github.com/beeman)! - Update the React Native package manifests to the latest `@solana-mobile` mobile wallet adapter protocol releases for the kit and web3js adapters.
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.0.4
+
+## 4.0.3
+
+### Patch Changes
+
+- [#467](https://github.com/wallet-ui/wallet-ui/pull/467) [`96d7aa9`](https://github.com/wallet-ui/wallet-ui/commit/96d7aa96357695092b2a36fa5d590bafe374cef0) Thanks [@beeman](https://github.com/beeman)! - Migrate the published packages to a TypeScript 6-compatible configuration.
+
+    Switch the shared package TypeScript settings to `bundler` resolution, move the package library baselines to `ES2024`, and add the declaration and CSS typing updates needed for the workspace to build cleanly on TypeScript 6.
+
+- [#474](https://github.com/wallet-ui/wallet-ui/pull/474) [`afe5a9d`](https://github.com/wallet-ui/wallet-ui/commit/afe5a9de73bddd63b3f13681359d9bfd40527d5c) Thanks [@beeman](https://github.com/beeman)! - Update the React Native packages to the latest `@solana-mobile` mobile wallet adapter protocol dependencies.
+
+    Bump `@wallet-ui/react-native-kit` to `@solana-mobile/mobile-wallet-adapter-protocol@^2.2.7` and `@solana-mobile/mobile-wallet-adapter-protocol-kit@^0.3.0`, and bump `@wallet-ui/react-native-web3js` to `@solana-mobile/mobile-wallet-adapter-protocol@^2.2.7` and `@solana-mobile/mobile-wallet-adapter-protocol-web3js@^2.2.7`.
+
+- Updated dependencies [[`96d7aa9`](https://github.com/wallet-ui/wallet-ui/commit/96d7aa96357695092b2a36fa5d590bafe374cef0)]:
+    - @wallet-ui/core@4.0.3
+
+## 4.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.0.2
+
+## 4.0.1
+
+### Patch Changes
+
+- [#445](https://github.com/wallet-ui/wallet-ui/pull/445) [`7fbb49b`](https://github.com/wallet-ui/wallet-ui/commit/7fbb49bc924fe77f1e13a02db3af446a1cfdd5c1) Thanks [@beeman](https://github.com/beeman)! - export symbols from convert-sign-in-result
+
+- Updated dependencies []:
+    - @wallet-ui/core@4.0.1
+
+## 4.0.0
+
+### Major Changes
+
+- [#396](https://github.com/wallet-ui/wallet-ui/pull/396) [`1eebc40`](https://github.com/wallet-ui/wallet-ui/commit/1eebc4046573984b9b1666ad7e0865c4fa076bc5) Thanks [@beeman](https://github.com/beeman)! - sign in should return message and signature
+
+- [#438](https://github.com/wallet-ui/wallet-ui/pull/438) [`40973a7`](https://github.com/wallet-ui/wallet-ui/commit/40973a7d8ebb24c279e318136c79414ada89973d) Thanks [@beeman](https://github.com/beeman)! - remove @wallet-ui/react-gill package
+
+### Minor Changes
+
+- [#442](https://github.com/wallet-ui/wallet-ui/pull/442) [`41a1710`](https://github.com/wallet-ui/wallet-ui/commit/41a17107f084160491e1a5b4a3b3b0016d4aade9) Thanks [@beeman](https://github.com/beeman)! - Add plural wallet method names and keep singular names as deprecated aliases.
+
+### Patch Changes
+
+- Updated dependencies [[`1eebc40`](https://github.com/wallet-ui/wallet-ui/commit/1eebc4046573984b9b1666ad7e0865c4fa076bc5), [`40973a7`](https://github.com/wallet-ui/wallet-ui/commit/40973a7d8ebb24c279e318136c79414ada89973d)]:
+    - @wallet-ui/core@4.0.0
+
+## 3.3.0
+
+### Minor Changes
+
+- [#431](https://github.com/wallet-ui/wallet-ui/pull/431) [`2bdd302`](https://github.com/wallet-ui/wallet-ui/commit/2bdd302d836fec8883a86c556b14f3837c0c5294) Thanks [@MattMsh](https://github.com/MattMsh)! - enhance signAndSendTransaction return type
+
+### Patch Changes
+
+- [#405](https://github.com/wallet-ui/wallet-ui/pull/405) [`fe20545`](https://github.com/wallet-ui/wallet-ui/commit/fe20545b054e97b661f852ddd6e9a64de70b8b9d) Thanks [@pratikbuilds](https://github.com/pratikbuilds)! - feat(mwa): signMessage accepts single or array of messages, signMessages removed
+
+- Updated dependencies []:
+    - @wallet-ui/core@3.3.0
+
+## 3.2.1
+
+### Patch Changes
+
+- [#415](https://github.com/wallet-ui/wallet-ui/pull/415) [`02c7d69`](https://github.com/wallet-ui/wallet-ui/commit/02c7d69a77c3b2b62171af5baad270faefea77d1) Thanks [@beeman](https://github.com/beeman)! - update @solana/kit dependencies
+
+- Updated dependencies [[`02c7d69`](https://github.com/wallet-ui/wallet-ui/commit/02c7d69a77c3b2b62171af5baad270faefea77d1)]:
+    - @wallet-ui/core@3.2.1
+
+## 3.2.0
+
+### Minor Changes
+
+- [#400](https://github.com/wallet-ui/wallet-ui/pull/400) [`1a61c39`](https://github.com/wallet-ui/wallet-ui/commit/1a61c3901e1324e780d6cced5f331eb9b85db94b) Thanks [@MattMsh](https://github.com/MattMsh)! - add signTransaction function to useMobileWallet hook
+
+### Patch Changes
+
+- Updated dependencies []:
+    - @wallet-ui/core@3.2.0
+
+## 3.1.0
+
+### Minor Changes
+
+- [#389](https://github.com/wallet-ui/wallet-ui/pull/389) [`0a0021a`](https://github.com/wallet-ui/wallet-ui/commit/0a0021aa99dff8b9489522262b18254276f4da47) Thanks [@beeman](https://github.com/beeman)! - feat: add `sendTransaction` to `useMobileWallet`
+
+- [#385](https://github.com/wallet-ui/wallet-ui/pull/385) [`d0942d7`](https://github.com/wallet-ui/wallet-ui/commit/d0942d7abdd87907411ca42b799a00cce62bc0cd) Thanks [@beeman](https://github.com/beeman)! - feat: implement `@wallet-ui/react-native-kit`
+
+### Patch Changes
+
+- Updated dependencies []:
+    - @wallet-ui/core@3.1.0

@@ -1,0 +1,82 @@
+---
+title: Getting started
+description: Choose the Wallet UI React Native package that matches your Solana client stack.
+---
+
+import { Aside, CardGrid, LinkCard, TabItem, Tabs } from '@astrojs/starlight/components';
+import PackageManagerTabs from '../../../components/docs/PackageManagerTabs.astro';
+
+Wallet UI ships two React Native SDK variants. The setup flow is mostly the same, so the docs are shared here and call out the places where the package APIs diverge.
+
+## Choose your package
+
+Choose the package that matches the Solana client stack already used by your app.
+
+<Tabs syncKey="rn-sdk">
+	<TabItem label="Kit">
+		Use `@wallet-ui/react-native-kit` if your app is built around `@solana/kit` and you want the Kit-native RPC client, `Address` types, and transaction helpers.
+
+    	<PackageManagerTabs
+    		npm="npm install @wallet-ui/react-native-kit"
+    		pnpm="pnpm add @wallet-ui/react-native-kit"
+    		bun="bun add @wallet-ui/react-native-kit"
+    	/>
+    </TabItem>
+    <TabItem label="Web3.js">
+    	Use `@wallet-ui/react-native-web3js` if your app already uses `@solana/web3.js`, `Connection`, `PublicKey`, and the web3.js transaction model.
+
+    	<PackageManagerTabs
+    		npm="npm install @wallet-ui/react-native-web3js"
+    		pnpm="pnpm add @wallet-ui/react-native-web3js"
+    		bun="bun add @wallet-ui/react-native-web3js"
+    	/>
+    </TabItem>
+
+</Tabs>
+
+## Starter templates
+
+Starter templates are available for both React Native packages.
+
+### Kit
+
+<PackageManagerTabs
+    npm={`npx solana-mobile@latest create -t expo-kit-anchor
+npx solana-mobile@latest create -t expo-kit-minimal
+npx solana-mobile@latest create -t expo-kit-uniwind`}
+    pnpm={`pnpm dlx solana-mobile@latest create -t expo-kit-anchor
+pnpm dlx solana-mobile@latest create -t expo-kit-minimal
+pnpm dlx solana-mobile@latest create -t expo-kit-uniwind`}
+    bun={`bunx solana-mobile@latest create -t expo-kit-anchor
+bunx solana-mobile@latest create -t expo-kit-minimal
+bunx solana-mobile@latest create -t expo-kit-uniwind`}
+/>
+
+### Web3.js
+
+<PackageManagerTabs
+    npm={`npx solana-mobile@latest create -t expo-web3js-anchor
+npx solana-mobile@latest create -t expo-web3js-minimal
+npx solana-mobile@latest create -t expo-web3js-uniwind`}
+    pnpm={`pnpm dlx solana-mobile@latest create -t expo-web3js-anchor
+pnpm dlx solana-mobile@latest create -t expo-web3js-minimal
+pnpm dlx solana-mobile@latest create -t expo-web3js-uniwind`}
+    bun={`bunx solana-mobile@latest create -t expo-web3js-anchor
+bunx solana-mobile@latest create -t expo-web3js-minimal
+bunx solana-mobile@latest create -t expo-web3js-uniwind`}
+/>
+
+## Setup guides
+
+<CardGrid stagger>
+    <LinkCard
+        href="/react-native/guides/expo/"
+        title="Expo"
+        description="Set up Wallet UI in Expo with shared steps and package-specific code examples."
+    />
+    <LinkCard
+        href="/react-native/core-concepts/"
+        title="Core concepts"
+        description="Review the shared architecture and the important kit vs. web3.js differences."
+    />
+</CardGrid>

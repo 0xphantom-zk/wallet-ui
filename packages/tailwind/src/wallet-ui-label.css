@@ -1,0 +1,8 @@
+[data-wu='wallet-ui-label'] {
+    /* Text color */
+    color: var(--wu-color-foreground);
+    /* Size */
+    @apply text-base;
+    /* Weight */
+    @apply font-normal;
+}

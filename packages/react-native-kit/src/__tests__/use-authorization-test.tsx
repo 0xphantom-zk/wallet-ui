@@ -1,0 +1,256 @@
+import type { Mock } from 'vitest';
+
+import {
+    AppIdentity,
+    AuthorizeAPI,
+    Chain,
+    SignInPayload,
+    SolanaMobileWalletAdapterProtocolError,
+    SolanaMobileWalletAdapterProtocolErrorCode,
+} from '@solana-mobile/mobile-wallet-adapter-protocol';
+
+import {
+    createAuthorizationResult,
+    createAuthorizedAccount,
+    createExpectedAccount,
+    createExpectedAuthorization,
+    createExpectedSignInOutput,
+    createSignInResult,
+    FIRST_ADDRESS,
+    SECOND_ADDRESS,
+    SECOND_ADDRESS_BASE64,
+} from '../test-utils/fixtures';
+import type { WalletAuthorization } from '../use-authorization';
+import { useAuthorization } from '../use-authorization';
+
+const mockUseAuthorizationStore = vi.fn();
+
+vi.mock('react', () => ({
+    useCallback: (callback: unknown) => callback,
+    useMemo: (factory: () => unknown) => factory(),
+}));
+
+vi.mock('../use-authorization-store', () => ({
+    useAuthorizationStore: (...args: unknown[]) => mockUseAuthorizationStore(...args),
+}));
+
+const CHAIN = 'solana:devnet' as Chain;
+const IDENTITY = {
+    name: 'Wallet UI',
+    uri: 'https://wallet-ui.dev',
+} as AppIdentity;
+
+describe('useAuthorization', () => {
+    it('authorizes with the existing auth token and persists the selected authorization', async () => {
+        expect.assertions(3);
+        const { authorization, persist } = useAuthorizationTestHarness();
+        const wallet = createWallet({
+            authorize: vi.fn().mockResolvedValue(
+                createAuthorizationResult({
+                    accounts: [
+                        createAuthorizedAccount({
+                            address: SECOND_ADDRESS_BASE64,
+                            label: 'Stake account',
+                        }),
+                    ],
+                    authToken: 'next-auth-token',
+                }),
+            ),
+        });
+
+        const selectedAccount = await authorization.authorizeSession(wallet);
+
+        expect(wallet.authorize).toHaveBeenCalledWith({
+            auth_token: 'cached-auth-token',
+            chain: CHAIN,
+            identity: IDENTITY,
+        });
+        expect(lastPersistedAuthorization(persist)).toEqual(
+            createExpectedAuthorization({
+                accounts: [
+                    createExpectedAccount({
+                        address: SECOND_ADDRESS,
+                        addressBase64: SECOND_ADDRESS_BASE64,
+                        label: 'Stake account',
+                    }),
+                ],
+                authToken: 'next-auth-token',
+            }),
+        );
+        expect(selectedAccount).toEqual(
+            createExpectedAccount({
+                address: SECOND_ADDRESS,
+                addressBase64: SECOND_ADDRESS_BASE64,
+                label: 'Stake account',
+            }),
+        );
+    });
+
+    it('retries without the cached auth token when authorization fails', async () => {
+        expect.assertions(2);
+        const { authorization, persist } = useAuthorizationTestHarness();
+        const wallet = createWallet({
+            authorize: vi
+                .fn()
+                .mockRejectedValueOnce(
+                    new SolanaMobileWalletAdapterProtocolError(
+                        1,
+                        SolanaMobileWalletAdapterProtocolErrorCode.ERROR_AUTHORIZATION_FAILED,
+                        'Authorization failed',
+                    ),
+                )
+                .mockResolvedValueOnce(
+                    createAuthorizationResult({
+                        accounts: [
+                            createAuthorizedAccount({
+                                address: SECOND_ADDRESS_BASE64,
+                            }),
+                        ],
+                        authToken: 'retried-auth-token',
+                    }),
+                ),
+        });
+
+        await authorization.authorizeSession(wallet);
+
+        expect(wallet.authorize.mock.calls).toEqual([
+            [
+                {
+                    auth_token: 'cached-auth-token',
+                    chain: CHAIN,
+                    identity: IDENTITY,
+                },
+            ],
+            [
+                {
+                    chain: CHAIN,
+                    identity: IDENTITY,
+                },
+            ],
+        ]);
+        expect(lastPersistedAuthorization(persist)).toEqual(
+            createExpectedAuthorization({
+                accounts: [
+                    createExpectedAccount({
+                        address: SECOND_ADDRESS,
+                        addressBase64: SECOND_ADDRESS_BASE64,
+                        label: 'Stake111..11111111',
+                    }),
+                ],
+                authToken: 'retried-auth-token',
+            }),
+        );
+    });
+
+    it('returns a normalized sign-in result and persists the next authorization', async () => {
+        expect.assertions(3);
+        const { authorization, persist } = useAuthorizationTestHarness();
+        const signInPayload = {
+            address: FIRST_ADDRESS,
+            domain: 'wallet-ui.dev',
+        } as SignInPayload;
+        const signInResult = createSignInResult();
+        const wallet = createWallet({
+            authorize: vi.fn().mockResolvedValue(
+                createAuthorizationResult({
+                    authToken: 'signed-in-auth-token',
+                    signInResult,
+                }),
+            ),
+        });
+
+        const output = await authorization.authorizeSessionWithSignIn(wallet, signInPayload);
+
+        expect(wallet.authorize).toHaveBeenCalledWith({
+            auth_token: 'cached-auth-token',
+            chain: CHAIN,
+            identity: IDENTITY,
+            sign_in_payload: signInPayload,
+        });
+        expect(lastPersistedAuthorization(persist)).toEqual(
+            createExpectedAuthorization({
+                authToken: 'signed-in-auth-token',
+            }),
+        );
+        expect(output).toEqual(
+            createExpectedSignInOutput({
+                account: createExpectedAccount(),
+                signInResult,
+            }),
+        );
+    });
+
+    it('deauthorizes the current session and clears persisted state', async () => {
+        expect.assertions(2);
+        const { authorization, persist } = useAuthorizationTestHarness();
+        const wallet = createWallet({
+            deauthorize: vi.fn().mockResolvedValue(undefined),
+        });
+
+        await authorization.deauthorizeSession(wallet);
+
+        expect(wallet.deauthorize).toHaveBeenCalledWith({
+            auth_token: 'cached-auth-token',
+        });
+        expect(persist).toHaveBeenCalledWith(null);
+    });
+
+    it('clears persisted state without a wallet round-trip when deauthorizing all sessions', async () => {
+        expect.assertions(1);
+        const { authorization, persist } = useAuthorizationTestHarness();
+
+        await authorization.deauthorizeSessions();
+
+        expect(persist).toHaveBeenCalledWith(null);
+    });
+
+    it('rejects invalid identity URI schemes before authorizing', async () => {
+        expect.assertions(2);
+        const wallet = createWallet();
+        const { authorization } = useAuthorizationTestHarness({
+            identity: {
+                name: 'My App',
+                uri: 'my_app://my-app',
+            },
+        });
+
+        await expect(authorization.authorizeSession(wallet as AuthorizeAPI)).rejects.toThrow(
+            'Invalid Mobile Wallet Adapter identity.uri',
+        );
+
+        expect(wallet.authorize).not.toHaveBeenCalled();
+    });
+});
+
+function createWallet({
+    authorize = vi.fn(),
+    deauthorize = vi.fn(),
+}: {
+    authorize?: Mock;
+    deauthorize?: Mock;
+} = {}) {
+    return {
+        authorize,
+        deauthorize,
+    };
+}
+
+function lastPersistedAuthorization(persist: Mock): WalletAuthorization {
+    return persist.mock.calls.at(-1)?.[0] as WalletAuthorization;
+}
+
+function useAuthorizationTestHarness({ identity = IDENTITY }: { identity?: AppIdentity } = {}) {
+    const persist = vi.fn().mockResolvedValue(undefined);
+
+    mockUseAuthorizationStore.mockReturnValue({
+        accounts: [createExpectedAccount()],
+        authToken: 'cached-auth-token',
+        persist,
+        selectedAccount: createExpectedAccount(),
+    });
+
+    return {
+        authorization: useAuthorization({ chain: CHAIN, identity, store: {} as never }),
+        persist,
+    };
+}

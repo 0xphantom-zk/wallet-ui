@@ -1,0 +1,29 @@
+/**
+ * These are the variables that are used in the @wallet-ui/tailwind styles.
+ *
+ * The goal is to make them compatible with the defaults used by Shadcn so it integrates automagically.
+ *
+ * These styles are compiled by the Tailwind compiler and used in the @wallet-ui/react package.
+ */
+@import 'tailwindcss';
+
+:root,
+html.light:root,
+[data-theme='light']:root {
+    --wu-color-background: var(--color-neutral-50);
+    --wu-color-background-hover: var(--color-neutral-100);
+    --wu-color-border: var(--color-neutral-200);
+    --wu-color-foreground: var(--color-neutral-950);
+    --wu-color-foreground-hover: var(--color-neutral-900);
+    --wu-color-ring: var(--color-neutral-400);
+}
+
+html.dark:root,
+[data-theme='dark']:root {
+    --wu-color-background: var(--color-neutral-950);
+    --wu-color-background-hover: var(--color-neutral-900);
+    --wu-color-border: var(--color-neutral-800);
+    --wu-color-foreground: var(--color-neutral-100);
+    --wu-color-foreground-hover: var(--color-white);
+    --wu-color-ring: var(--color-neutral-500);
+}

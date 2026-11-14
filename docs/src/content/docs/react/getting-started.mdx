@@ -1,0 +1,37 @@
+---
+title: Getting started
+description: Getting started with the Wallet UI React SDK.
+---
+
+import FrameworkGrid from '../../../components/docs/FrameworkGrid.astro';
+import PackageManagerTabs from '../../../components/docs/PackageManagerTabs.astro';
+
+## Get started with a template
+
+The fastest path is to start from a template. That gives you a working app structure, styling setup, and Wallet UI already wired in.
+
+### React with Vite and Tailwind CSS
+
+React apps with Vite, TypeScript, Tailwind CSS, Wallet UI, and Solana Kit.
+
+Use `bun-react-vite-solana-kit` for a basic app, or choose `quasar-react-counter` or `quasar-react-escrow` for an app with an example Quasar program.
+
+<PackageManagerTabs
+    npm={`npx create-seed@latest -t bun-react-vite-solana-kit
+npx create-seed@latest -t quasar-react-counter
+npx create-seed@latest -t quasar-react-escrow`}
+    pnpm={`pnpm dlx create-seed@latest -t bun-react-vite-solana-kit
+pnpm dlx create-seed@latest -t quasar-react-counter
+pnpm dlx create-seed@latest -t quasar-react-escrow`}
+    bun={`bunx create-seed@latest -t bun-react-vite-solana-kit
+bunx create-seed@latest -t quasar-react-counter
+bunx create-seed@latest -t quasar-react-escrow`}
+/>
+
+## Framework guide
+
+If you are adding Wallet UI to an existing project, or you want to wire it up manually, use one of the framework guides below.
+
+<FrameworkGrid />
+
+After setup, continue with [Core concepts](/react/core-concepts/) to understand the provider and state model, then move into [components](/react/components/) or [hooks](/react/hooks/) depending on how custom your UI needs to be.

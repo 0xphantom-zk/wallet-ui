@@ -1,0 +1,74 @@
+{
+    "name": "wallet-ui-monorepo",
+    "private": true,
+    "workspaces": [
+        "docs",
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "pnpm lint && pnpm format:check && turbo run --concurrency=${TURBO_CONCURRENCY:-95.84%} build",
+        "changeset:publish": "turbo publish-packages --concurrency=${TURBO_CONCURRENCY:-95.84%} && echo 'published=true' >> $GITHUB_OUTPUT",
+        "changeset:version": "changeset version && pnpm format",
+        "clean": "find . -type d \\( -name 'node_modules' -o -name 'android' -o -name 'build' -o -name 'dist' -o -name '.turbo' -o -name '.wxt' -o -name '.expo' -o -name '.astro' -o -name '.wrangler' \\) -prune -exec rm -rf '{}' +",
+        "compile": "turbo run --concurrency=${TURBO_CONCURRENCY:-95.84%} compile:js compile:typedefs",
+        "format": "oxfmt",
+        "format:check": "oxfmt --check",
+        "lint": "oxlint .",
+        "style:fix": "oxfmt && oxlint --fix .",
+        "test": "turbo run --concurrency=${TURBO_CONCURRENCY:-95.84%} test:unit:browser test:unit:node && pnpm test:examples",
+        "test:coverage:packages": "node ./scripts/test-coverage-published-packages.mjs",
+        "test:examples": "pnpm --dir examples/expo-kit test && pnpm --dir examples/expo-web3js test",
+        "test:examples:live-with-test-validator": "pnpm --dir examples/expo-kit test:live-with-test-validator && pnpm --dir examples/expo-web3js test:live-with-test-validator",
+        "test:examples:native-entry": "pnpm --dir examples/expo-kit test:native-entry && pnpm --dir examples/expo-web3js test:native-entry",
+        "test:live-with-test-validator": "turbo run --concurrency=${TURBO_CONCURRENCY:-95.84%} test:live-with-test-validator",
+        "test:live-with-test-validator:setup": "./scripts/setup-test-validator.sh"
+    },
+    "devDependencies": {
+        "@changesets/changelog-github": "^0.5.1",
+        "@changesets/cli": "^2.29.8",
+        "@types/node": "^24.5.2",
+        "@vitest/coverage-v8": "^4.1.7",
+        "@wallet-ui/build-scripts": "workspace:*",
+        "@wallet-ui/test-config": "workspace:*",
+        "@wallet-ui/test-matchers": "workspace:*",
+        "@wallet-ui/tsconfig": "workspace:*",
+        "agadoo": "^3.0.0",
+        "bundlemon": "^3.1.0",
+        "istanbul-lib-coverage": "^3.2.2",
+        "istanbul-lib-report": "^3.0.1",
+        "istanbul-reports": "^3.2.0",
+        "jsdom": "^22.1.0",
+        "oxfmt": "^0.51.0",
+        "oxlint": "^1.66.0",
+        "pkg-pr-new": "^0.0.75",
+        "ts-node": "^10.9.2",
+        "tsup": "^8.5.1",
+        "turbo": "^2.5.6",
+        "typescript": "^6.0.3",
+        "vitest": "^4.1.7"
+    },
+    "engines": {
+        "node": ">=20.19.0",
+        "pnpm": "^10"
+    },
+    "packageManager": "pnpm@10.33.0",
+    "pnpm": {
+        "overrides": {
+            "agadoo>rollup": "^4",
+            "conventional-changelog-conventionalcommits": ">= 8.0.0",
+            "dset@<3.1.4": "^3.1.4",
+            "jsdom": "^22",
+            "mock-socket": "^9.3.1",
+            "shelljs": ">=0.8.5"
+        },
+        "onlyBuiltDependencies": [
+            "@parcel/watcher",
+            "@swc/core",
+            "@tailwindcss/oxide",
+            "esbuild",
+            "sharp",
+            "unrs-resolver",
+            "workerd"
+        ]
+    }
+}

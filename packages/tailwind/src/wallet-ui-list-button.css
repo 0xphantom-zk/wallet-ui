@@ -1,0 +1,17 @@
+[data-wu='wallet-ui-list-button'] {
+    /* Composition */
+    @apply flex items-center gap-2;
+    /* No wrap */
+    @apply whitespace-nowrap;
+    /* Behavior */
+    @apply cursor-pointer select-none appearance-none disabled:cursor-not-allowed disabled:opacity-50;
+    /* Radius */
+    @apply rounded-lg;
+    /* Padding */
+    @apply px-2 py-2 rounded-lg;
+
+    &:hover {
+        /* Background */
+        background: var(--wu-color-background-hover);
+    }
+}

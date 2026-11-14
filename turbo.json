@@ -1,0 +1,103 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "remoteCache": {
+        "signature": true
+    },
+    "tasks": {
+        "build": {
+            "dependsOn": [
+                "compile:js",
+                "compile:typedefs",
+                "test:treeshakability:browser",
+                "test:treeshakability:native",
+                "test:treeshakability:node",
+                "test:typecheck",
+                "test:unit:browser",
+                "test:unit:node"
+            ],
+            "outputs": ["dist/**"]
+        },
+        "compile:js": {
+            "dependsOn": ["^compile:js"],
+            "inputs": ["$TURBO_DEFAULT$", "tsconfig.*", "src/**", "../build-scripts/*.ts"],
+            "outputs": ["dist/**"]
+        },
+        "compile:typedefs": {
+            "dependsOn": ["^compile:typedefs"],
+            "inputs": ["$TURBO_DEFAULT$", "tsconfig.*", "src/**"],
+            "outputs": ["dist/**/*.d.ts"]
+        },
+        "publish-packages": {
+            "cache": false,
+            "dependsOn": [
+                "compile:js",
+                "compile:typedefs",
+                "test:typecheck",
+                "test:unit:browser",
+                "test:unit:node",
+                "test:treeshakability:browser",
+                "test:treeshakability:native",
+                "test:treeshakability:node"
+            ],
+            "passThroughEnv": [
+                "ACTIONS_ID_TOKEN_REQUEST_TOKEN",
+                "ACTIONS_ID_TOKEN_REQUEST_URL",
+                "GH_TOKEN",
+                "GITHUB_*",
+                "NODE_AUTH_TOKEN",
+                "NPM_CONFIG_USERCONFIG",
+                "NPM_TOKEN",
+                "PUBLISH_TAG"
+            ]
+        },
+        "test:live-with-test-validator": {
+            "dependsOn": ["^compile:js"],
+            "inputs": ["$TURBO_DEFAULT$", "src/**"],
+            "outputs": []
+        },
+        "test:typecheck": {
+            "dependsOn": ["^compile:typedefs"],
+            "inputs": ["$TURBO_DEFAULT$", "tsconfig.*", "src/**"],
+            "outputs": []
+        },
+        "test:unit:browser": {
+            "dependsOn": ["^compile:js"],
+            "inputs": ["$TURBO_DEFAULT$", "../../.agave/**/version.yml", "src/**"],
+            "outputs": []
+        },
+        "test:unit:node": {
+            "dependsOn": ["^compile:js"],
+            "inputs": ["$TURBO_DEFAULT$", "../../.agave/**/version.yml", "src/**"],
+            "outputs": []
+        },
+        "test:treeshakability:browser": {
+            "dependsOn": ["compile:js"]
+        },
+        "test:treeshakability:native": {
+            "dependsOn": ["compile:js"]
+        },
+        "test:treeshakability:node": {
+            "dependsOn": ["compile:js"]
+        },
+        "@wallet-ui/docs#build": {
+            "dependsOn": ["^compile:js", "^compile:typedefs", "test:typecheck"],
+            "inputs": [
+                "$TURBO_DEFAULT$",
+                "astro.config.mjs",
+                "public/**",
+                "scripts/**",
+                "src/**",
+                "tsconfig.*",
+                "wrangler.toml"
+            ],
+            "outputs": ["dist/**"]
+        },
+        "@wallet-ui/example-react-app#compile:js": {
+            "dependsOn": ["^compile:js", "^compile:typedefs"],
+            "env": ["REACT_EXAMPLE_APP_BASE_PATH", "REACT_EXAMPLE_APP_ENABLE_MAINNET"],
+            "inputs": ["$TURBO_DEFAULT$", "index.html", "tsconfig.*", "vite.config.ts", "public/**", "src/**"],
+            "outputs": ["dist/**"]
+        }
+    },
+    "ui": "stream"
+}

@@ -1,0 +1,32 @@
+{
+    "name": "@wallet-ui/example-react-vite-tailwind",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "compile:js": "vite build",
+        "dev": "vite",
+        "preview": "vite preview",
+        "test:typecheck": "tsc"
+    },
+    "dependencies": {
+        "@tailwindcss/vite": "^4.2.2",
+        "@wallet-ui/playground-react": "workspace:*",
+        "@wallet-ui/react": "workspace:*",
+        "@wallet-ui/tailwind": "workspace:*",
+        "react": "^19.1.4",
+        "react-dom": "^19.1.4",
+        "react-error-boundary": "^6.0.0",
+        "react-router": "^7.13.2",
+        "tailwindcss": "^4.2.2",
+        "ws": "^8.18.3"
+    },
+    "devDependencies": {
+        "@types/react": "^19.1.17",
+        "@types/react-dom": "^19.1.11",
+        "@vitejs/plugin-react": "^5.1.1",
+        "globals": "^16.5.0",
+        "typescript": "~6.0.3",
+        "vite": "^7.2.6"
+    }
+}

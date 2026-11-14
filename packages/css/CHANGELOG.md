@@ -1,0 +1,69 @@
+# @wallet-ui/css
+
+## 4.4.1
+
+## 4.4.0
+
+## 4.3.0
+
+## 4.2.1
+
+## 4.2.0
+
+### Minor Changes
+
+- [#533](https://github.com/wallet-ui/wallet-ui/pull/533) [`e79cb14`](https://github.com/wallet-ui/wallet-ui/commit/e79cb140b6320d0bc1873c444d68c0accd9f0dec) Thanks [@beeman](https://github.com/beeman)! - Add framework-neutral QR code matrix and SVG generation helpers backed by `qr`, and raise the Node.js engine floor to 20.19 for published Wallet UI packages.
+
+## 4.1.1
+
+## 4.1.0
+
+## 4.0.5
+
+## 4.0.4
+
+## 4.0.3
+
+### Patch Changes
+
+- [#467](https://github.com/wallet-ui/wallet-ui/pull/467) [`96d7aa9`](https://github.com/wallet-ui/wallet-ui/commit/96d7aa96357695092b2a36fa5d590bafe374cef0) Thanks [@beeman](https://github.com/beeman)! - Migrate the published packages to a TypeScript 6-compatible configuration.
+
+    Switch the shared package TypeScript settings to `bundler` resolution, move the package library baselines to `ES2024`, and add the declaration and CSS typing updates needed for the workspace to build cleanly on TypeScript 6.
+
+## 4.0.2
+
+## 4.0.1
+
+## 4.0.0
+
+## 3.3.0
+
+## 3.2.1
+
+## 3.2.0
+
+## 3.1.0
+
+## 3.0.0
+
+## 2.2.2
+
+## 2.2.1
+
+## 2.2.0
+
+## 2.1.0
+
+### Minor Changes
+
+- [#321](https://github.com/wallet-ui/wallet-ui/pull/321) [`a9eb7e2`](https://github.com/wallet-ui/wallet-ui/commit/a9eb7e21790b4bf7c30317e49234d39e611cd615) Thanks [@beeman](https://github.com/beeman)! - update @solana/kit and gill versions
+
+## 2.0.0
+
+### Major Changes
+
+- [#253](https://github.com/wallet-ui/wallet-ui/pull/253) [`79ff6ac`](https://github.com/wallet-ui/wallet-ui/commit/79ff6acb5d39349787764106daa1cfb5cf40e9f8) Thanks [@beeman](https://github.com/beeman)! - implement @wallet-ui/css package
+
+### Patch Changes
+
+- [#286](https://github.com/wallet-ui/wallet-ui/pull/286) [`d25ee0c`](https://github.com/wallet-ui/wallet-ui/commit/d25ee0cc6de5e0456bb49ed3d026c59563b9b1ef) Thanks [@beeman](https://github.com/beeman)! - update dependencies

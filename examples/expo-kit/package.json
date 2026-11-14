@@ -41,7 +41,7 @@
         "js-base64": "^3.7.8",
         "react": "19.2.3",
         "react-dom": "19.2.3",
-        "react-native": "0.85.3",
+        "react-native": "0.88.1",
         "react-native-gesture-handler": "~2.31.2",
         "react-native-get-random-values": "~1.11.0",
         "react-native-quick-crypto": "^0.7.17",
